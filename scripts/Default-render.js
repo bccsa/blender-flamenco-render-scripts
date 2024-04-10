@@ -1,3 +1,7 @@
+/**
+ * This script uses settings set in blender for rendering.
+*/
+
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 const JOB_TYPE = {
