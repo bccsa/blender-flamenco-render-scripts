@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 const JOB_TYPE = {
-    label: "Blender Render",
+    label: "Default Blender Render",
     description: "Render a sequence of frames, and create a preview video file",
     settings: [
         // Automatically evaluated settings:
