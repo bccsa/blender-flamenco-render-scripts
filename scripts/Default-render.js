@@ -8,6 +8,8 @@ const JOB_TYPE = {
     label: "Default Blender Render",
     description: "Render a sequence of frames, and create a preview video file",
     settings: [
+        { key: "render_output_path", type: "string", subtype: "file_path", required: true, visible: "submission",
+          description: "Output path where blender file will be stored."},
         // Automatically evaluated settings:
         { key: "blendfile", type: "string", required: true, description: "Path of the Blend file to render", visible: "web" },
         { key: "fps", type: "float", eval: "C.scene.render.fps / C.scene.render.fps_base", visible: "hidden" },
@@ -44,8 +46,12 @@ function compileJob(job) {
 }
 
 function authorRenderTasks(settings) {
+    let outputPath = settings.render_output_path;
+    let renderDir = path.dirname(outputPath);
+    print("authorRenderTasks(", renderDir, outputPath, ")");
     print(settings);
     let renderTasks = [];
+    
     const task = author.Task(`render`, "blender");
     const command = author.Command("blender-render", {
         exe: "{blender}",
@@ -53,6 +59,7 @@ function authorRenderTasks(settings) {
         argsBefore: [],
         blendfile: settings.blendfile,
         args: [
+            "--render-output", path.join(renderDir, path.basename(outputPath)),
             "--render-format", settings.format,
             "-a"
         ]
