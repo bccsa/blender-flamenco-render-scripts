@@ -10,6 +10,9 @@ const JOB_TYPE = {
     settings: [
         { key: "render_output_path", type: "string", subtype: "file_path", required: true, visible: "submission",
           description: "Output path where blender file will be stored."},
+        { key: "final_render_output_path", type: "string", subtype: "file_path", editable: false,
+          eval: "str(Path(abspath(settings.render_output_path)))",
+          description: "Final file path of where render output will be saved"},
         // Automatically evaluated settings:
         { key: "blendfile", type: "string", required: true, description: "Path of the Blend file to render", visible: "web" },
         { key: "fps", type: "float", eval: "C.scene.render.fps / C.scene.render.fps_base", visible: "hidden" },
@@ -46,7 +49,7 @@ function compileJob(job) {
 }
 
 function authorRenderTasks(settings) {
-    let outputPath = settings.render_output_path;
+    let outputPath = settings.final_render_output_path;
     let renderDir = path.dirname(outputPath);
     print("authorRenderTasks(", renderDir, outputPath, ")");
     print(settings);
